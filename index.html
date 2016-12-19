@@ -1,0 +1,228 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+    </head>
+    <body>
+        <div id="clock-container">
+            <div class="row">
+                <div class="word-block" id="it-is">
+                    <h1>IT IS</h1>
+                </div>
+                <div class="word-block" id="30-minutes">
+                    <h1>HALF</h1>
+                </div>
+                <div class="word-block" id="10-minutes">
+                    <h1>TEN</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="word-block" id="15-minutes">
+                    <h1>QUARTER</h1>
+                </div>
+                <div class="word-block" id="20-minutes">
+                    <h1>TWENTY</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="word-block" id="5-minutes">
+                    <h1>FIVE</h1>
+                </div>
+                <div class="word-block" id="minutes">
+                    <h1>MINUTES</h1>
+                </div>
+                <div class="word-block" id="to">
+                    <h1>TO</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="word-block" id="past">
+                    <h1>PAST</h1>
+                </div>
+                <div class="word-block" id="2-hours">
+                    <h1>TWO</h1>
+                </div>
+                <div class="word-block" id="3-hours">
+                    <h1>THREE</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="word-block" id="1-hours">
+                    <h1>ONE</h1>
+                </div>
+                <div class="word-block" id="4-hours">
+                    <h1>FOUR</h1>
+                </div>
+                <div class="word-block" id="5-hours">
+                    <h1>FIVE</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="word-block" id="6-hours">
+                    <h1>SIX</h1>
+                </div>
+                <div class="word-block" id="7-hours">
+                    <h1>SEVEN</h1>
+                </div>
+                <div class="word-block" id="8-hours">
+                    <h1>EIGHT</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="word-block" id="9-hours">
+                    <h1>NINE</h1>
+                </div>
+                <div class="word-block" id="10-hours">
+                    <h1>TEN</h1>
+                </div>
+                <div class="word-block" id="11-hours">
+                    <h1>ELEVEN</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="word-block" id="12-hours">
+                    <h1>TWELVE</h1>
+                </div>
+                <div class="word-block" id="o-clock">
+                    <h1>O'CLOCK</h1>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script>
+            function setClock() {
+                var time = moment();
+
+                // get hours and adjust for 12-hour scale
+                let hours = time.hours();
+                if (hours > 12) {
+                    hours -= 12;
+                }
+                else if (hours == 0) {
+                    hours = 12;
+                }
+
+                // get minutes and round to nearest five minutes
+                let minutes = time.minutes();
+                if (minutes % 5 != 0) {
+                    if (minutes % 5 < 3) {
+                        minutes -= (minutes % 5);
+                    }
+                    else {
+                        minutes += (5 - (minutes % 5));
+                    }
+                }
+
+                $("#it-is").addClass("light");
+                if (minutes == 0) {
+                    setHours(hours);
+                    $("#o-clock").addClass("light");
+                }
+                else {
+                    if (minutes <= 30) {
+                        if (minutes != 25) {
+                            var idName = "#" + minutes + "-minutes";
+                            if (!$(idName).hasClass("light")) {
+                                resetClock();
+                                $(idName).addClass("light");
+
+                                if (minutes != 15 && minutes != 30) {
+                                    $("#minutes").addClass("light");
+                                }
+                                else {
+                                    $("#minutes").removeClass("light");
+                                }
+
+                                $("#past").addClass("light");
+
+                                var hourId = "#" + hours + "-hours";
+                                $(hourId).addClass("light");
+                            }
+                        }
+                        else {
+                            if (!$("#twenty-minutes").hasClass("light") || !$("#five-minutes").hasClass("light")) {
+                                resetClock();
+                                $("#twenty-minutes").addClass("light");
+                                $("#five-minutes").addClass("light");
+
+                                $("#minutes").addClass("light");
+                                $("#past").addClass("light");
+
+                                var hourId = "#" + hours + "-hours";
+                                $(hourId).addClass("light");
+                            }
+                        }
+                    }
+                    else {
+                        minutes = 60 - minutes;
+                        if (minutes != 25) {
+                            var idName = "#" + minutes + "-minutes";
+                            if (!$(idName).hasClass("light")) {
+                                resetClock();
+                                $(idName).addClass("light");
+
+                                if (minutes != 15) {
+                                    $("#minutes").addClass("light");
+                                }
+                                else {
+                                    $("#minutes").removeClass("light");
+                                }
+
+                                $("#to").addClass("light");
+
+                                if (hours != 12) {
+                                    var hourId = "#" + (hours + 1) + "-hours";
+                                    $(hourId).addClass("light");
+                                }
+                                else {
+                                    $("#1-hours").addClass("light");
+                                }
+                            }
+                        }
+                        else {
+                            if (!$("#twenty-minutes").hasClass("light") || !$("#five-minutes").hasClass("light")) {
+                                resetClock();
+                                $("#twenty-minutes").addClass("light");
+                                $("#five-minutes").addClass("light");
+
+                                $("#minutes").addClass("light");
+                                $("#to").addClass("light");
+
+                                if (hours != 12) {
+                                    var hourId = "#" + (hours + 1) + "-hours";
+                                    $(hourId).addClass("light");
+                                }
+                                else {
+                                    $("#1-hours").addClass("light");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            function setHours(hours) {
+                var idName = "#" + hours + "-hours";
+                if (!$(idName).hasClass("light")) {
+                    resetClock();
+                    $(idName).addClass("light");
+                }
+            }
+
+            function resetClock() {
+                $(".word-block").removeClass("light");
+                $("#it-is").addClass("light");
+            }
+
+            setInterval(setClock, 1000);
+        </script>
+    </body>
+</html>
